@@ -33,6 +33,14 @@ bool CheatAction::Execute(Event event)
 
     botAI->SetCheat(BotCheatMask(cheatMask));
 
+#ifdef USE_CUSTOM_CHANGES
+    // god: the bot gets the core's GM god mode, which Unit::DealDamage honours for any player
+    if (botAI->HasCheat(BotCheatMask::god))
+        bot->SetCommandStatusOn(CHEAT_GOD);
+    else
+        bot->SetCommandStatusOff(CHEAT_GOD);
+#endif
+
     return true;
 }
 
@@ -56,6 +64,11 @@ BotCheatMask CheatAction::GetCheatMask(std::string const cheat)
     if (cheat == "raid")
         return BotCheatMask::raid;
 
+#ifdef USE_CUSTOM_CHANGES
+    if (cheat == "god")
+        return BotCheatMask::god;
+#endif
+
     return BotCheatMask::none;
 }
 
@@ -75,6 +88,10 @@ std::string const CheatAction::GetCheatName(BotCheatMask cheatMask)
             return "power";
         case BotCheatMask::raid:
             return "raid";
+#ifdef USE_CUSTOM_CHANGES
+        case BotCheatMask::god:
+            return "god";
+#endif
         default:
             return "none";
     }

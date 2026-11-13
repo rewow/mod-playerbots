@@ -27,7 +27,12 @@ enum class BotCheatMask : uint32
     power = 16,
     raid = 32,
     food = 64,
+#ifdef USE_CUSTOM_CHANGES
+    god = 128, // the core's GM god mode on the bot (CHEAT_GOD): it takes no damage
+    maxMask = 256
+#else
     maxMask = 128
+#endif
 };
 
 enum class HealingManaEfficiency : uint8
