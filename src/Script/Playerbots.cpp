@@ -618,6 +618,9 @@ void AddSC_HyjalBotScripts();
 void AddSC_IcecrownBotScripts();
 void AddSC_RubySanctumBotScripts();
 void AddSC_randombot_level_mgr();
+#ifdef USE_CUSTOM_CHANGES
+void AddBattlegroundBotFillScripts();
+#endif
 
 void AddPlayerbotsScripts()
 {
@@ -642,4 +645,7 @@ void AddPlayerbotsScripts()
     AddSC_IcecrownBotScripts();
     AddSC_RubySanctumBotScripts();
     AddSC_randombot_level_mgr();
+#ifdef USE_CUSTOM_CHANGES
+    AddBattlegroundBotFillScripts();
+#endif
 }
