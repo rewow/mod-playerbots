@@ -1338,6 +1338,14 @@ void PlayerbotAI::HandleBotOutgoingPacket(WorldPacket const& packet)
                     sCharacterCache->GetCharacterNameByGuid(guid1, name);
                     uint32 accountId = sCharacterCache->GetCharacterAccountIdByGuid(guid1);
                     isFromFreeBot = sPlayerbotAIConfig.IsInRandomAccountList(accountId);
+#ifdef USE_CUSTOM_CHANGES
+                    // The battleground fill's bots log in from their own account pool, outside the random bot list:
+                    // their chat counted as a real player's (no chat pause), each bot that heard it queued a reply,
+                    // and the replies fed each other until one update spent over a minute on a single bot's queue.
+                    if (!isFromFreeBot)
+                        if (Player* sender = ObjectAccessor::FindConnectedPlayer(guid1))
+                            isFromFreeBot = !IsRealPlayer(sender) && !IsSelfBot(sender);
+#endif
                     bool isMentioned = message.find(bot->GetName()) != std::string::npos;
 
                     // ChatChannelSource chatChannelSource = GetChatChannelSource(bot, msgtype, chanName);
